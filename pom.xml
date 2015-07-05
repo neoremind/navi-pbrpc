@@ -132,7 +132,6 @@
 						<formats>
 							<format>xml</format>
 						</formats>
-						<aggregate>true</aggregate>
 						<instrumentation>
 							<excludes>
 								<exclude>**/*Demo.class</exclude>

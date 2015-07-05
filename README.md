@@ -5,7 +5,7 @@
 Add the below dependency to pom.xml for a maven enabled project.
 
 	<dependency>    	<groupId>com.baidu.beidou</groupId>    	<artifactId>navi-pbrpc</artifactId>    	<version>1.0.0</version>	</dependency>### 2. Make a protobuf generated message
-Use **protoc** command to compile an IDL proto file and generate a java source file. 
+Use `protoc` command to compile an **IDL proto file** and generate a java source file. 
 The IDL proto file can define the request and response type. Below is a simple sample:
 
 
