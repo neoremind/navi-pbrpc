@@ -10,7 +10,7 @@
 
 ```package com.baidu.beidou.navi.pbrpc.demo.proto; option cc_generic_services = true;message DemoRequest {    optional int32 user_id = 1;}message DemoResponse {    optional int32 user_id = 1;    optional string user_name = 2;    enum GenderType {        MALE = 1;        FEMALE = 2;    }      optional GenderType gender_type = 3;}
 ```### 3. Develop server-side service
-Develop a server-side service implementation. Below is an example based on the IDL generated java code from the previous step.    public class DemoServiceImpl implements DemoService {        @Override        public DemoResponse doSmth(DemoRequest req) {            DemoResponse.Builder builder = DemoResponse.newBuilder();            builder.setUserId(1);            builder.setUserName("name-1");            builder.setGenderType(DemoResponse.GenderType.MALE);        return builder.build();        }        }
+Develop a server-side service implementation. Below is an example based on the IDL generated java code from the previous step.    public class DemoServiceImpl implements DemoService {        @Override        public DemoResponse doSmth(DemoRequest req) {            DemoResponse.Builder builder = DemoResponse.newBuilder();            builder.setUserId(1);            builder.setUserName("name-1");            builder.setGenderType(DemoResponse.GenderType.MALE);            return builder.build();        }        }
 ### 4. Expose service and start server
 
 Register the service implementation and specify the **service id** as 100. 
