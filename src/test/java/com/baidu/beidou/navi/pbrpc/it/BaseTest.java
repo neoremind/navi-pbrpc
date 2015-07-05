@@ -159,6 +159,11 @@ public abstract class BaseTest {
         if (SERVER != null) {
             SERVER.shutdown();
         }
+        try {
+            Thread.sleep(1000);
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
     }
 
     public PbrpcMsg getPbrpcMsg(int userId) {
