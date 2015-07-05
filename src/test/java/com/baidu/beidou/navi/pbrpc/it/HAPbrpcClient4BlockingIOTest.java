@@ -80,7 +80,7 @@ public class HAPbrpcClient4BlockingIOTest extends BaseTest {
                 return HAPbrpcClientFactory.buildShortLiveBlockingIOConnection(UNCONNT_IPPORT,
                         1000, 5000, new RandomLoadBalanceStrategy(new FailOverStrategy(2)));
             }
-        }, new PbrpcConnectionException(), false);
+        }, 2, new PbrpcConnectionException(), false);
     }
 
     @Test
