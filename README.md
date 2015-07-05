@@ -1,6 +1,6 @@
 ## Navi-pbrpc
 ![](https://api.travis-ci.org/neoremind/navi-pbrpc.svg?branch=master)
-Navi-pbrpc provides a rpc solution for using protocol buffer. This library enables client and server to communicate in a peer-to-peer and full duplexing way. The server-side is built upon netty which supports asynchronous io, while the client-side provides a wide variety of options to communicate with server, which includes short live connection, keep-alive tcp connection, high availability and failover strategy.## Quick Start### 1. Prerequisite
+Navi-pbrpc provides a rpc solution for using protocol buffer. This library enables client and server to communicate in a peer-to-peer and full duplexing way. The server-side is built upon [netty](http://netty.io/) which supports asynchronous io, while the client-side provides a wide variety of options to communicate with server, which includes short live connection, keep-alive tcp connection, high availability and failover strategy.## Quick Start### 1. Prerequisite
 Add the below dependency to pom.xml for a maven enabled project.
 
 	<dependency>    	<groupId>com.baidu.beidou</groupId>    	<artifactId>navi-pbrpc</artifactId>    	<version>1.0.0</version>	</dependency>### 2. Make a protobuf generated message
@@ -18,5 +18,5 @@ Start the server on an specific port.```PbrpcServer server = new PbrpcServer(
 The framework provides many options to communicate with the server in terms of short live connection or keep-alive connection, high availablity and failover strategy. You can check out more on the [project wiki](http://).Below demostrates how to build a keep-alive connection pool and invoke rpc call.
 ```// 1) Build client with keep-alive pooled connection, and client read timeout is 60sPbrpcClient client = PbrpcClientFactory.buildPooledConnection(new PooledConfiguration(),        "127.0.0.1", 8088, 60000);// 2) Construct request data by using protobufDemoRequest.Builder req = DemoRequest.newBuilder();req.setUserId(1);byte[] data = req.build().toByteArray();// 3) Build message by specifying the service id, and the property provider is used as a client trace sign.PbrpcMsg msg = new PbrpcMsg();msg.setServiceId(100);msg.setProvider("beidou");msg.setData(data);// 4) Asynchronous invocationCallFuture<DemoResponse> future = client.asyncTransport(DemoResponse.class, msg);// 5) Wait response to come. Once rpc call is done, the code will stop blocking right away.DemoResponse res = future.get();// 6) Print out result.System.out.println(res);```
 ===### More information
-Click here to wiki.
+Click here to [Tutorials wiki](https://github.com/neoremind/navi-pbrpc/wiki/Tutorials).
 ### Supports ![](http://neoremind.net/imgs/gmail.png)
