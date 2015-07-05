@@ -8,9 +8,12 @@
 	<name>A protobuf based high performance rpc framework which provides asynchronous io with netty</name>
 
 	<properties>
-		<source.version>1.6</source.version>
-		<target.version>1.6</target.version>
 		<encoding>UTF-8</encoding>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
+        <java.version>1.6</java.version>
+        <source.version>1.6</source.version>
+        <target.version>1.6</target.version>
 	</properties>
 
 	<repositories>

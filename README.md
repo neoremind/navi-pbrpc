@@ -1,7 +1,7 @@
 ## Navi-pbrpc
 ![](https://api.travis-ci.org/neoremind/navi-pbrpc.svg?branch=master)
 [![Coverage Status](https://coveralls.io/repos/neoremind/navi-pbrpc/badge.svg)](https://coveralls.io/r/neoremind/navi-pbrpc)
-Navi-pbrpc provides a rpc solution for using protocol buffer. This library enables client and server to communicate in a peer-to-peer and full duplexing way. The server-side is built upon [netty](http://netty.io/) which supports asynchronous io, while the client-side provides a wide variety of options to communicate with server, which includes short live connection, keep-alive tcp connection, high availability and failover strategy.## Quick Start### 1. Prerequisite
+Navi-pbrpc provides a rpc solution for using protocol buffer. This library enables client and server to communicate in a peer-to-peer and full duplexing way. The server-side is built upon [netty](http://netty.io/) which supports asynchronous and non-blocking io functionality, while the client-side provides a wide variety of options to communicate with server, which includes short live connection, keep-alive tcp connection, high availability and failover strategy.## Quick Start### 1. Prerequisite
 Add the below dependency to pom.xml for a maven enabled project.
 
 	<dependency>    	<groupId>com.baidu.beidou</groupId>    	<artifactId>navi-pbrpc</artifactId>    	<version>1.0.0</version>	</dependency>### 2. Make a protobuf generated message
