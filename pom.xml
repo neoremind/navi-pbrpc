@@ -15,6 +15,16 @@
 		<source.version>1.6</source.version>
 		<target.version>1.6</target.version>
 	</properties>
+	
+	<inceptionYear>2015</inceptionYear>
+    <licenses>
+        <license>
+            <name>Apache 2</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+            <comments>A business-friendly OSS license</comments>
+        </license>
+    </licenses>
 
 	<repositories>
 		<repository>
@@ -119,7 +129,7 @@
 				<plugin>
 					<groupId>org.codehaus.mojo</groupId>
 					<artifactId>cobertura-maven-plugin</artifactId>
-					<version>2.6</version>
+					<version>2.7</version>
 					<configuration>
 						<formats>
 							<format>xml</format>
@@ -138,6 +148,7 @@
 							</excludes>
 						</instrumentation>
 					</configuration>
+					<!--  
 					<executions>
 						<execution>
 							<phase>package</phase>
@@ -146,6 +157,7 @@
 							</goals>
 						</execution>
 					</executions>
+					-->
 				</plugin>
 
 <!--  
@@ -222,13 +234,12 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>cobertura-maven-plugin</artifactId>
-				<version>2.6</version>
+				<version>2.7</version>
 				<configuration>
 					<encoding>UTF-8</encoding>
 					<aggregate>true</aggregate>
 					<formats>
 						<format>xml</format>
-						<format>html</format>
 					</formats>
 					<instrumentation>
 						<excludes>
