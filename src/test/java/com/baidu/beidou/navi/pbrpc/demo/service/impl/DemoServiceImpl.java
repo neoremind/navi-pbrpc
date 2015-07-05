@@ -49,7 +49,7 @@ public class DemoServiceImpl implements DemoService {
     @Override
     public DemoResponse doSmthTimeout(DemoRequest req) {
         try {
-            Thread.sleep(3000);
+            Thread.sleep(6000);
         } catch (Exception e) {
             // TODO: handle exception
         }
