@@ -121,9 +121,7 @@
 	</dependencies>
 
 	<build>
-		<defaultGoal>package</defaultGoal>
 		<finalName>${project.artifactId}</finalName>
-		<outputDirectory>target/classes</outputDirectory>
 		<pluginManagement>
 			<plugins>
 				<plugin>
