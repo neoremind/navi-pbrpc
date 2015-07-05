@@ -66,7 +66,7 @@ public class HAPbrpcClient4BlockingIOTest extends BaseTest {
             @Override
             public PbrpcClient getClient() {
                 return HAPbrpcClientFactory.buildShortLiveBlockingIOConnection(IPPORT + ","
-                        + UNCONNT_IPPORT, 2000, 5000, new RRLoadBalanceStrategy(
+                        + UNCONNT_IPPORT, 5000, 10000, new RRLoadBalanceStrategy(
                         new FailOverStrategy(2)));
             }
         });
@@ -112,7 +112,7 @@ public class HAPbrpcClient4BlockingIOTest extends BaseTest {
             @Override
             public PbrpcClient getClient() {
                 return HAPbrpcClientFactory.buildPooledBlockingIOConnection(IPPORT + ","
-                        + UNCONNT_IPPORT, 2000, 5000, new RRLoadBalanceStrategy(
+                        + UNCONNT_IPPORT, 5000, 10000, new RRLoadBalanceStrategy(
                         new FailOverStrategy(2)));
             }
         });

@@ -65,7 +65,7 @@ public class HAPbrpcClient4NIOTest extends BaseTest {
             @Override
             public PbrpcClient getClient() {
                 return HAPbrpcClientFactory.buildShortLiveConnection(IPPORT + "," + UNCONNT_IPPORT,
-                        2000, 5000, new RRLoadBalanceStrategy(new FailOverStrategy(2)));
+                        2000, 10000, new RRLoadBalanceStrategy(new FailOverStrategy(2)));
             }
         });
     }
@@ -109,7 +109,7 @@ public class HAPbrpcClient4NIOTest extends BaseTest {
             @Override
             public PbrpcClient getClient() {
                 return HAPbrpcClientFactory.buildPooledConnection(IPPORT + "," + UNCONNT_IPPORT,
-                        2000, 5000, new RRLoadBalanceStrategy(new FailOverStrategy(2)));
+                        2000, 10000, new RRLoadBalanceStrategy(new FailOverStrategy(2)));
             }
         });
     }

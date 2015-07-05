@@ -12,7 +12,7 @@ public class PbrpcConstants {
     /**
      * 默认客户端连接超时时间，单位毫秒
      */
-    public static final int DEFAULT_CLIENT_CONN_TIMEOUT = 4000;
+    public static final int DEFAULT_CLIENT_CONN_TIMEOUT = 5000;
 
     /**
      * 默认客户端调用读超时时间，单位毫秒

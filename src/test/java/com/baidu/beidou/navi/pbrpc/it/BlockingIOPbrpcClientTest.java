@@ -27,7 +27,7 @@ public class BlockingIOPbrpcClientTest extends BaseTest {
         syncCall(new ClientBuilder() {
             @Override
             public PbrpcClient getClient() {
-                return PbrpcClientFactory.buildShortLiveBlockingIOConnection(IP, PORT, 2000);
+                return PbrpcClientFactory.buildShortLiveBlockingIOConnection(IP, PORT, 1000);
             }
         }, msg, new PbrpcException(), true);
     }
@@ -47,7 +47,7 @@ public class BlockingIOPbrpcClientTest extends BaseTest {
         asyncCall(new ClientBuilder() {
             @Override
             public PbrpcClient getClient() {
-                return PbrpcClientFactory.buildShortLiveBlockingIOConnection(IP, PORT, 2000, 5000);
+                return PbrpcClientFactory.buildShortLiveBlockingIOConnection(IP, PORT, 2000, 10000);
             }
         }, new OperationNotSupportException(), true);
     }

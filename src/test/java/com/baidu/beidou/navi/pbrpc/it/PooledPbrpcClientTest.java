@@ -27,7 +27,7 @@ public class PooledPbrpcClientTest extends BaseTest {
             @Override
             public PbrpcClient getClient() {
                 return PbrpcClientFactory.buildPooledConnection(new PooledConfiguration(), IP,
-                        PORT, 2000, 5000);
+                        PORT, 2000, 10000);
             }
         });
     }
