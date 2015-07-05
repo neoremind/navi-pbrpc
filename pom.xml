@@ -135,7 +135,6 @@
 								<exclude>**/Server.class</exclude>
 								<exclude>**/*Test.class</exclude>
 								<exclude>**/Negative*.class</exclude>
-								<exclude>**/log4j.properties</exclude>
 							</excludes>
 						</instrumentation>
 					</configuration>
@@ -239,7 +238,6 @@
 							<exclude>**/Server.class</exclude>
 							<exclude>**/*Test.class</exclude>
 							<exclude>**/Negative*.class</exclude>
-							<exclude>**/log4j.properties</exclude>
 						</excludes>
 					</instrumentation>
 					<check />
