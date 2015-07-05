@@ -43,7 +43,7 @@ public class HAPbrpcClient4NIOTest extends BaseTest {
             @Override
             public PbrpcClient getClient() {
                 return HAPbrpcClientFactory.buildShortLiveConnection(IPPORT + "," + UNCONNT_IPPORT,
-                        1000, 5000, new RRLoadBalanceStrategy(new FailFastStrategy()));
+                        2000, 5000, new RRLoadBalanceStrategy(new FailFastStrategy()));
             }
         }, 5, new PbrpcException(), false);
     }
@@ -53,7 +53,7 @@ public class HAPbrpcClient4NIOTest extends BaseTest {
         syncCall(new ClientBuilder() {
             @Override
             public PbrpcClient getClient() {
-                return HAPbrpcClientFactory.buildShortLiveConnection(UNCONNT_IPPORT, 1000, 5000,
+                return HAPbrpcClientFactory.buildShortLiveConnection(UNCONNT_IPPORT, 2000, 5000,
                         new RandomLoadBalanceStrategy(new FailFastStrategy()));
             }
         }, new PbrpcException(), false);
@@ -65,7 +65,7 @@ public class HAPbrpcClient4NIOTest extends BaseTest {
             @Override
             public PbrpcClient getClient() {
                 return HAPbrpcClientFactory.buildShortLiveConnection(IPPORT + "," + UNCONNT_IPPORT,
-                        1000, 5000, new RRLoadBalanceStrategy(new FailOverStrategy(2)));
+                        2000, 5000, new RRLoadBalanceStrategy(new FailOverStrategy(2)));
             }
         });
     }
@@ -75,7 +75,7 @@ public class HAPbrpcClient4NIOTest extends BaseTest {
         syncCall(new ClientBuilder() {
             @Override
             public PbrpcClient getClient() {
-                return HAPbrpcClientFactory.buildShortLiveConnection(UNCONNT_IPPORT, 1000, 5000,
+                return HAPbrpcClientFactory.buildShortLiveConnection(UNCONNT_IPPORT, 2000, 5000,
                         new RandomLoadBalanceStrategy(new FailOverStrategy(2)));
             }
         }, new PbrpcException(), false);
@@ -87,7 +87,7 @@ public class HAPbrpcClient4NIOTest extends BaseTest {
             @Override
             public PbrpcClient getClient() {
                 return HAPbrpcClientFactory.buildPooledConnection(IPPORT + "," + UNCONNT_IPPORT,
-                        1000, 5000, new RRLoadBalanceStrategy(new FailFastStrategy()));
+                        2000, 5000, new RRLoadBalanceStrategy(new FailFastStrategy()));
             }
         }, 5, new PbrpcConnectionException(), false);
     }
@@ -97,7 +97,7 @@ public class HAPbrpcClient4NIOTest extends BaseTest {
         syncCall(new ClientBuilder() {
             @Override
             public PbrpcClient getClient() {
-                return HAPbrpcClientFactory.buildPooledConnection(UNCONNT_IPPORT, 1000, 5000,
+                return HAPbrpcClientFactory.buildPooledConnection(UNCONNT_IPPORT, 2000, 5000,
                         new RandomLoadBalanceStrategy(new FailFastStrategy()));
             }
         }, new PbrpcConnectionException(), false);
@@ -109,7 +109,7 @@ public class HAPbrpcClient4NIOTest extends BaseTest {
             @Override
             public PbrpcClient getClient() {
                 return HAPbrpcClientFactory.buildPooledConnection(IPPORT + "," + UNCONNT_IPPORT,
-                        1000, 5000, new RRLoadBalanceStrategy(new FailOverStrategy(2)));
+                        2000, 5000, new RRLoadBalanceStrategy(new FailOverStrategy(2)));
             }
         });
     }
@@ -119,7 +119,7 @@ public class HAPbrpcClient4NIOTest extends BaseTest {
         syncCall(new ClientBuilder() {
             @Override
             public PbrpcClient getClient() {
-                return HAPbrpcClientFactory.buildPooledConnection(UNCONNT_IPPORT, 1000, 5000,
+                return HAPbrpcClientFactory.buildPooledConnection(UNCONNT_IPPORT, 2000, 5000,
                         new RandomLoadBalanceStrategy(new FailOverStrategy(2)));
             }
         }, new PbrpcConnectionException(), false);
