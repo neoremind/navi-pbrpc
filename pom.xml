@@ -5,8 +5,9 @@
 	<groupId>com.baidu.beidou</groupId>
 	<artifactId>navi-pbrpc</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
-	<name>A protobuf based high performance rpc framework which provides asynchronous io with netty</name>
-
+	<name>navi-pbrpc</name>
+    <description>A protobuf based high performance rpc framework which provides asynchronous io with netty</description>
+    
 	<properties>
 		<encoding>UTF-8</encoding>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -211,6 +212,12 @@
 						</execution>
 					</executions>
 				</plugin>
+				
+				<plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>2.5</version>
+            </plugin>
 			</plugins>
 		</pluginManagement>
 	</build>
@@ -262,4 +269,91 @@
 		</plugins>
 	</reporting>
 -->
+
+<developers>
+        <developer>
+            <name>Xu Zhang</name>
+            <id>neoremind</id>
+            <email>xuzhang1986@gmail.com</email>
+            <roles>
+                <role>Developer</role>
+            </roles>
+            <timezone>+8</timezone>
+        </developer>
+    </developers>
+
+    <organization>
+        <name>neoremind</name>
+        <url>http://neoremind.net</url>
+    </organization>
+
+    <scm>
+        <url>scm:git:git@github.com:neoremind/navi-pbrpc</url>
+        <connection>scm:git:git@github.com:neoremind/navi-pbrpc</connection>
+        <tag>navi-pbrpc</tag>
+    </scm>
+
+    <url>https://github.com/neoremind/navi-pbrpc</url>
+    
+    <profiles>
+        <profile>
+            <id>release</id>
+            <distributionManagement>
+                <snapshotRepository>
+                    <id>nexus-release</id>
+                    <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+                </snapshotRepository>
+                <repository>
+                    <id>nexus-release</id>
+                    <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+                </repository>
+            </distributionManagement>
+            <build>
+                <plugins>
+                    <!-- Source -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <version>2.2.1</version>
+                        <executions>
+                            <execution>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>jar-no-fork</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <!-- Javadoc -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>2.9.1</version>
+                        <executions>
+                            <execution>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>1.5</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
