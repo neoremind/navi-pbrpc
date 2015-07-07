@@ -18,6 +18,16 @@ Register the service implementation and specify the **service id** as 100.
 Start the server on an specific port.```PbrpcServer server = new PbrpcServer(8088);server.register(100, new DemoServiceImpl());server.start();```### 5. Develop client to invoke remote service
 The framework provides many options to communicate with the server in terms of short live connection or keep-alive connection, high availablity and failover strategy. You can check out more on the [project wiki](http://).Below demostrates how to build a keep-alive connection pool and make a rpc call.
 ```// 1) Build client with keep-alive pooled connection, and client read timeout is 60sPbrpcClient client = PbrpcClientFactory.buildPooledConnection(new PooledConfiguration(),        "127.0.0.1", 8088, 60000);// 2) Construct request data by using protobufDemoRequest.Builder req = DemoRequest.newBuilder();req.setUserId(1);byte[] data = req.build().toByteArray();// 3) Build message by specifying the service id, and the property provider is used as a client trace sign.PbrpcMsg msg = new PbrpcMsg();msg.setServiceId(100);msg.setProvider("beidou");msg.setData(data);// 4) Asynchronous invocationCallFuture<DemoResponse> future = client.asyncTransport(DemoResponse.class, msg);// 5) Wait response to come. Once rpc call is done, the code will stop blocking right away.DemoResponse res = future.get();// 6) Print out result.System.out.println(res);```
-===### More information
+===
+### DependenciesNavi-pbrpc tries to leverage minimum amount of dependency libraries, so that project built upon Navi-pbrpc will not be overwhelmed by other unwanted libraries. The followings are the dependencies.
+
+    [INFO] +- commons-pool:commons-pool:jar:1.5.7:compile
+    [INFO] +- com.google.protobuf:protobuf-java:jar:2.5.0:compile
+    [INFO] +- io.netty:netty-all:jar:4.0.28.Final:compile
+    [INFO] +- org.javassist:javassist:jar:3.18.1-GA:compile
+    [INFO] +- org.slf4j:slf4j-api:jar:1.7.7:compile
+    [INFO] +- org.slf4j:slf4j-log4j12:jar:1.7.7:compile
+    [INFO] |  \- log4j:log4j:jar:1.2.17:compile
+### More information
 Click here to [Tutorials wiki](https://github.com/neoremind/navi-pbrpc/wiki/Tutorials).
 ### Supports ![](http://neoremind.net/imgs/gmail.png)
