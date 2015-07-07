@@ -1,7 +1,4 @@
 language: java
 
-install:
-  - mvn package -Dmaven.test.skip=true
-
 after_success:
   - mvn clean test jacoco:report coveralls:report
