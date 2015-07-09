@@ -12,6 +12,19 @@ public class PreconditionsTest {
         } catch (Exception e) {
             // TODO: handle exception
         }
+        try {
+            int i = -1;
+            Preconditions.checkArgument(i >= 0);
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+
+        try {
+            int i = -1;
+            Preconditions.checkArgument(i >= 0, "Argument expected nonnegative");
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
     }
 
     @Test
@@ -22,13 +35,41 @@ public class PreconditionsTest {
         } catch (Exception e) {
             // TODO: handle exception
         }
+
+        try {
+            Object obj = null;
+            Preconditions.checkNotNull(obj);
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+
+        try {
+            Object obj = null;
+            Preconditions.checkNotNull(obj, "Argument expected not null");
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
     }
 
     @Test
     public void testCheckState() {
         try {
             int x = 1;
-            Preconditions.checkState(x == 5, "Argument was %s but expected 1", x);
+            Preconditions.checkState(x == 5, "Argument was %s but expected 5", x);
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+
+        try {
+            int x = 1;
+            Preconditions.checkState(x == 5);
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+
+        try {
+            int x = 1;
+            Preconditions.checkState(x == 5, "Argument expected 5");
         } catch (Exception e) {
             // TODO: handle exception
         }
