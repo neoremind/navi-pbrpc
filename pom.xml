@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.baidu.beidou</groupId>
 	<artifactId>navi-pbrpc</artifactId>
-	<version>1.1.0</version>
+	<version>1.1.1-SNAPSHOT</version>
 	<name>navi-pbrpc</name>
 	<description>A protobuf based high performance rpc framework which provides asynchronous io with netty</description>
 
@@ -231,7 +231,7 @@
 	<scm>
 		<url>scm:git:git@github.com:neoremind/navi-pbrpc</url>
 		<connection>scm:git:git@github.com:neoremind/navi-pbrpc</connection>
-		<tag>navi-pbrpc-1.1.0</tag>
+		<tag>navi-pbrpc</tag>
 	</scm>
 
 	<url>https://github.com/neoremind/navi-pbrpc</url>
