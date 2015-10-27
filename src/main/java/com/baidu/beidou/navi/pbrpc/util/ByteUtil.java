@@ -17,6 +17,7 @@ public class ByteUtil {
 
     private static final Logger LOG = LoggerFactory.getLogger(ByteUtil.class);
 
+
     /**
      * 默认字符编码
      */
