@@ -13,6 +13,9 @@ public class FailOverStrategy implements FailStrategy {
      */
     private int maxRetryTimes = 2;
 
+    public FailOverStrategy() {
+    }
+
     /**
      * Creates a new instance of FailOverStrategy.
      * 

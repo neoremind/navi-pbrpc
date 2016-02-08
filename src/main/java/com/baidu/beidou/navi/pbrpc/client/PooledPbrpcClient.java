@@ -52,6 +52,9 @@ public class PooledPbrpcClient implements PbrpcClient {
      */
     private int readTimeout;
 
+    public PooledPbrpcClient() {
+    }
+
     /**
      * Creates a new instance of PooledPbrpcClient.
      * 

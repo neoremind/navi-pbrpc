@@ -38,18 +38,4 @@ public class BlockingIOPbrpcClientSocketPool extends Pool<BlockingIOPbrpcClient>
         LOG.info("Init connection pool done but connections will not be established until you start using the pool");
     }
 
-    /**
-     * @see com.baidu.beidou.navi.pbrpc.util.Pool#returnBrokenResource(java.lang.Object)
-     */
-    public void returnBrokenResource(final PbrpcClientChannel resource) {
-        returnBrokenResourceObject(resource);
-    }
-
-    /**
-     * @see com.baidu.beidou.navi.pbrpc.util.Pool#returnResource(java.lang.Object)
-     */
-    public void returnResource(final PbrpcClientChannel resource) {
-        returnResourceObject(resource);
-    }
-
 }

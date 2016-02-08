@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <aop:aspectj-autoproxy proxy-target-class="true"/>
+
+    <context:annotation-config/>
+    <context:component-scan base-package="com.baidu.beidou"/>
+
+    <!-- properties配置文件，内含ip端口列表或者一些timeout设置 -->
+    <bean id="propertyPlaceholderConfigurerConfig"
+          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE"/>
+        <property name="ignoreResourceNotFound" value="true"/>
+        <property name="ignoreUnresolvablePlaceholders" value="true"/>
+        <property name="locations">
+            <list>
+                <value>classpath:ipportstring_nagative/application.properties</value>
+            </list>
+        </property>
+    </bean>
+
+    <!-- 高可用相关配置，FailOverStrategy代表失败重试，FailFastStrategy代表失败立即退出 -->
+    <!-- 负载均衡配置中，RRLoadBalanceStrategy代表轮训调用服务器，RandomLoadBalanceStrategy代表随机选择服务器调用 -->
+    <!-- 默认transportCallback不做任何事情，可以配置AutoEvictTransportCallback做自动剔除失效链接 -->
+    <bean id="failoverStrategy" class="com.baidu.beidou.navi.pbrpc.client.ha.FailOverStrategy"/>
+    <bean id="roundRobinLoadBalanceStrategy" class="com.baidu.beidou.navi.pbrpc.client.ha.RRLoadBalanceStrategy">
+        <property name="failStrategy" ref="failoverStrategy"/>
+    </bean>
+
+    <!-- Pbprc服务server定位locator工厂，这里使用BlockingIO短连接 -->
+    <bean id="pbrpcServerLocator"
+          class="com.baidu.beidou.navi.pbrpc.client.IpPortShortLiveBlockingIOPbrpcServerLocator"/>
+
+    <!-- 通过Pbprc服务server定位locator工厂构造高可用客户端 -->
+    <bean id="haPbrpcClient"
+          factory-bean="pbrpcServerLocator"
+          factory-method="factory">
+        <constructor-arg value="${pbrpc.client.server}"/>
+        <constructor-arg value="${pbrpc.client.connect.timeout}"/>
+        <constructor-arg value="${pbrpc.client.read.timeout}"/>
+        <constructor-arg ref="roundRobinLoadBalanceStrategy"/>
+    </bean>
+
+    <!-- Pbprc代理proxy生成器，需要指定高可用pbrpc客户端和provider标示 -->
+    <bean id="integrationProxy" class="com.baidu.beidou.navi.pbrpc.spring.JdkDynamicIntegrationProxy">
+        <property name="pbrpcClient" ref="haPbrpcClient"/>
+        <property name="provider" value="beidou"/>
+    </bean>
+
+    <!-- 服务bean定义，使用Spring的FactoryBean来做代理 -->
+    <bean id="demoService" class="com.baidu.beidou.navi.pbrpc.spring.PbrpcProxyFactoryBean">
+        <property name="integrationProxy" ref="integrationProxy"/>
+        <property name="serviceInterface">
+            <value>com.baidu.beidou.navi.pbrpc.demo.service.DemoService</value>
+        </property>
+    </bean>
+
+</beans>

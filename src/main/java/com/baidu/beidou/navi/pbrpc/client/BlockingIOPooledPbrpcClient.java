@@ -69,6 +69,9 @@ public class BlockingIOPooledPbrpcClient implements PbrpcClient {
      */
     private HeaderResolver headerResolver = new NsHeaderResolver();
 
+    public BlockingIOPooledPbrpcClient() {
+    }
+
     /**
      * Creates a new instance of BlockingIOPooledPbrpcClient.
      * 

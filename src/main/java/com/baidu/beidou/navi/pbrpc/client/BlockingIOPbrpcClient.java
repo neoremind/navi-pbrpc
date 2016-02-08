@@ -25,7 +25,7 @@ import com.google.protobuf.GeneratedMessage;
 /**
  * ClassName: BlockingIOPbrpcClient <br/>
  * Function: 简单的远程访问客户端，使用短连接Blocking IO方式调用服务端，不使用nio
- * 
+ *
  * @author Zhang Xu
  */
 public class BlockingIOPbrpcClient implements PbrpcClient {
@@ -55,7 +55,7 @@ public class BlockingIOPbrpcClient implements PbrpcClient {
     /**
      * 是否为短连接调用
      */
-    private boolean isShortAliveConn;
+    private boolean isShortAliveConn = true;
 
     /**
      * 长连接调用会使用的
@@ -77,9 +77,12 @@ public class BlockingIOPbrpcClient implements PbrpcClient {
      */
     private HeaderResolver headerResolver = new NsHeaderResolver();
 
+    public BlockingIOPbrpcClient() {
+    }
+
     /**
      * Creates a new instance of BlockingIOPbrpcClient.
-     * 
+     *
      * @param pbrpcClientConfiguration
      * @param isShortAliveConnection
      * @param ip
@@ -88,7 +91,7 @@ public class BlockingIOPbrpcClient implements PbrpcClient {
      * @param readTimeout
      */
     BlockingIOPbrpcClient(PbrpcClientConfiguration pbrpcClientConfiguration,
-            boolean isShortAliveConnection, String ip, int port, int connTimeout, int readTimeout) {
+                          boolean isShortAliveConnection, String ip, int port, int connTimeout, int readTimeout) {
         if (pbrpcClientConfiguration != null) {
             this.pbrpcClientConfiguration = pbrpcClientConfiguration;
         }
@@ -101,7 +104,7 @@ public class BlockingIOPbrpcClient implements PbrpcClient {
 
     /**
      * Creates a new instance of BlockingIOPbrpcClient.
-     * 
+     *
      * @param ip
      * @param port
      * @param connTimeout
@@ -120,16 +123,16 @@ public class BlockingIOPbrpcClient implements PbrpcClient {
 
     /**
      * @see com.baidu.beidou.navi.pbrpc.client.PbrpcClient#asyncTransport(java.lang.Class,
-     *      com.baidu.beidou.navi.pbrpc.transport.PbrpcMsg)
+     * com.baidu.beidou.navi.pbrpc.transport.PbrpcMsg)
      */
     public <T extends GeneratedMessage> CallFuture<T> asyncTransport(Class<T> responseClazz,
-            PbrpcMsg pbrpcMsg) {
+                                                                     PbrpcMsg pbrpcMsg) {
         throw new OperationNotSupportException();
     }
 
     /**
      * @see com.baidu.beidou.navi.pbrpc.client.PbrpcClient#syncTransport(java.lang.Class,
-     *      com.baidu.beidou.navi.pbrpc.transport.PbrpcMsg)
+     * com.baidu.beidou.navi.pbrpc.transport.PbrpcMsg)
      */
     @SuppressWarnings("unchecked")
     public <T extends GeneratedMessage> T syncTransport(Class<T> responseClazz, PbrpcMsg pbrpcMsg) {
@@ -139,15 +142,16 @@ public class BlockingIOPbrpcClient implements PbrpcClient {
         try {
             if (isShortAliveConn) {
                 socket = buildSocket();
+                socket.connect(new InetSocketAddress(this.ip, this.port), this.connTimeout);
             } else {
                 if (this.socket == null) {
                     // by default only pooling is allowd to access long alive connection
                     this.socket = buildSocket();
+                    this.socket.connect(new InetSocketAddress(this.ip, this.port), this.connTimeout);
                 }
                 socket = this.socket;
             }
 
-            socket.connect(new InetSocketAddress(this.ip, this.port), this.connTimeout);
             out = socket.getOutputStream();
             in = socket.getInputStream();
 
@@ -199,7 +203,14 @@ public class BlockingIOPbrpcClient implements PbrpcClient {
      * @see com.baidu.beidou.navi.pbrpc.client.PbrpcClient#shutdown()
      */
     public void shutdown() {
-
+        if (socket != null) {
+            try {
+                socket.close();
+            } catch (Exception e) {
+                LOG.info("Failed to close socket, " + e.getMessage(), e);
+            }
+        }
+        socket = null;
     }
 
     /**
@@ -213,8 +224,9 @@ public class BlockingIOPbrpcClient implements PbrpcClient {
 
     /**
      * 构造一个socket
-     * 
+     *
      * @return
+     *
      * @throws SocketException
      */
     private Socket buildSocket() throws SocketException {
@@ -230,7 +242,7 @@ public class BlockingIOPbrpcClient implements PbrpcClient {
 
     /**
      * 返回socket
-     * 
+     *
      * @return
      */
     public Socket getSocket() {

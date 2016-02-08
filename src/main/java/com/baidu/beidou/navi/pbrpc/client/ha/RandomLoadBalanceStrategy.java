@@ -15,7 +15,7 @@ import com.google.protobuf.GeneratedMessage;
 /**
  * ClassName: RandomLoadBalanceStrategy <br/>
  * Function: 随机负载均衡策略调用
- * 
+ *
  * @author Zhang Xu
  */
 public class RandomLoadBalanceStrategy implements LoadBalanceStrategy {
@@ -33,8 +33,16 @@ public class RandomLoadBalanceStrategy implements LoadBalanceStrategy {
     private FailStrategy failStrategy;
 
     /**
+     * 传输调用回调
+     */
+    private TransportCallback transportCallback = new DefaultTransportCallback();
+
+    public RandomLoadBalanceStrategy() {
+    }
+
+    /**
      * Creates a new instance of RandomLoadBalanceStrategy.
-     * 
+     *
      * @param failStrategy
      */
     public RandomLoadBalanceStrategy(FailStrategy failStrategy) {
@@ -43,29 +51,37 @@ public class RandomLoadBalanceStrategy implements LoadBalanceStrategy {
 
     /**
      * 内部抽象方法调用
-     * 
+     *
      * @param clientList
      * @param responseClazz
      * @param pbrpcMsg
      * @param isAsync
+     *
      * @return
+     *
      * @throws HAPbrpcException
      */
     public <T extends GeneratedMessage> Object transport(List<PbrpcClient> clientList,
-            Class<T> responseClazz, PbrpcMsg pbrpcMsg, boolean isAsync) throws HAPbrpcException {
+                                                         Class<T> responseClazz, PbrpcMsg pbrpcMsg, boolean isAsync)
+            throws HAPbrpcException {
         int clientSize = clientList.size();
         for (int currRetry = 0; currRetry < failStrategy.getMaxRetryTimes()
-                && currRetry < clientSize;) {
+                && currRetry < clientSize; ) {
             int index = randomer.nextInt(clientSize);
             PbrpcClient client = clientList.get(index);
             try {
                 LOG.info("Call on " + client.getInfo() + " starts...");
                 if (isAsync) {
-                    return (CallFuture<T>) client.asyncTransport(responseClazz, pbrpcMsg);
+                    CallFuture<T> ret = (CallFuture<T>) client.asyncTransport(responseClazz, pbrpcMsg);
+                    transportCallback.onSuccess(client, clientList);
+                    return ret;
                 } else {
-                    return (T) client.syncTransport(responseClazz, pbrpcMsg);
+                    T ret = (T) client.syncTransport(responseClazz, pbrpcMsg);
+                    transportCallback.onSuccess(client, clientList);
+                    return ret;
                 }
             } catch (Exception e) {
+                transportCallback.onFail(client, clientList, e);
                 LOG.error("Call on " + client.getInfo() + " failed due to " + e.getMessage(), e);
                 if (failStrategy.isQuitImmediately(currRetry, clientSize)) {
                     throw new HAPbrpcException(e);
@@ -81,7 +97,7 @@ public class RandomLoadBalanceStrategy implements LoadBalanceStrategy {
 
     /**
      * @see com.baidu.beidou.navi.pbrpc.client.ha.LoadBalanceStrategy#doAsyncTransport(java.util.List, java.lang.Class,
-     *      com.baidu.beidou.navi.pbrpc.transport.PbrpcMsg)
+     * com.baidu.beidou.navi.pbrpc.transport.PbrpcMsg)
      */
     @SuppressWarnings("unchecked")
     @Override
@@ -93,13 +109,20 @@ public class RandomLoadBalanceStrategy implements LoadBalanceStrategy {
 
     /**
      * @see com.baidu.beidou.navi.pbrpc.client.ha.LoadBalanceStrategy#doSyncTransport(java.util.List, java.lang.Class,
-     *      com.baidu.beidou.navi.pbrpc.transport.PbrpcMsg)
+     * com.baidu.beidou.navi.pbrpc.transport.PbrpcMsg)
      */
     @SuppressWarnings("unchecked")
     @Override
     public <T extends GeneratedMessage> T doSyncTransport(List<PbrpcClient> clientList,
-            Class<T> responseClazz, PbrpcMsg pbrpcMsg) {
+                                                          Class<T> responseClazz, PbrpcMsg pbrpcMsg) {
         return (T) transport(clientList, responseClazz, pbrpcMsg, false);
     }
 
+    public void setFailStrategy(FailStrategy failStrategy) {
+        this.failStrategy = failStrategy;
+    }
+
+    public void setTransportCallback(TransportCallback transportCallback) {
+        this.transportCallback = transportCallback;
+    }
 }

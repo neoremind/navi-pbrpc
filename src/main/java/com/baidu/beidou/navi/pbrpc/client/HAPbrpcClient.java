@@ -16,7 +16,7 @@ import com.google.protobuf.GeneratedMessage;
 /**
  * ClassName: HAPbrpcClient <br/>
  * Function: 高可用的pbrpc客户端
- * 
+ *
  * @author Zhang Xu
  */
 public class HAPbrpcClient implements PbrpcClient {
@@ -33,9 +33,12 @@ public class HAPbrpcClient implements PbrpcClient {
      */
     private List<PbrpcClient> clientList;
 
+    public HAPbrpcClient() {
+    }
+
     /**
      * Creates a new instance of HAPbrpcClient.
-     * 
+     *
      * @param clientList
      */
     public HAPbrpcClient(List<PbrpcClient> clientList) {
@@ -66,18 +69,18 @@ public class HAPbrpcClient implements PbrpcClient {
 
     /**
      * @see com.baidu.beidou.navi.pbrpc.client.PbrpcClient#asyncTransport(java.lang.Class,
-     *      com.baidu.beidou.navi.pbrpc.transport.PbrpcMsg)
+     * com.baidu.beidou.navi.pbrpc.transport.PbrpcMsg)
      */
     @Override
     public <T extends GeneratedMessage> CallFuture<T> asyncTransport(Class<T> responseClazz,
-            PbrpcMsg pbrpcMsg) {
+                                                                     PbrpcMsg pbrpcMsg) {
         Preconditions.checkNotNull(loadBalanceStrategy, "Load balance strategy is not init");
         return loadBalanceStrategy.doAsyncTransport(clientList, responseClazz, pbrpcMsg);
     }
 
     /**
      * @see com.baidu.beidou.navi.pbrpc.client.PbrpcClient#syncTransport(java.lang.Class,
-     *      com.baidu.beidou.navi.pbrpc.transport.PbrpcMsg)
+     * com.baidu.beidou.navi.pbrpc.transport.PbrpcMsg)
      */
     @Override
     public <T extends GeneratedMessage> T syncTransport(Class<T> responseClazz, PbrpcMsg pbrpcMsg) {
@@ -104,8 +107,9 @@ public class HAPbrpcClient implements PbrpcClient {
 
     /**
      * 设置负载均衡器
-     * 
+     *
      * @param loadBalanceStrategy
+     *
      * @return
      */
     public HAPbrpcClient setLoadBalanceStrategy(LoadBalanceStrategy loadBalanceStrategy) {
@@ -113,4 +117,7 @@ public class HAPbrpcClient implements PbrpcClient {
         return this;
     }
 
+    public void setClientList(List<PbrpcClient> clientList) {
+        this.clientList = clientList;
+    }
 }

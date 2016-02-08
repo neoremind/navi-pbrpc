@@ -104,6 +104,9 @@ public class SimplePbrpcClient implements PbrpcClient {
         }
     }
 
+    public SimplePbrpcClient() {
+    }
+
     /**
      * Creates a new instance of ShortLiveConnectionPbrpcClient.
      * <p>

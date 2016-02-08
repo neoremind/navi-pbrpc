@@ -151,7 +151,8 @@ public class BlockingIOPbrpcClientSocketFactory extends BasePoolableObjectFactor
                 try {
                     soTimeout = socket.getSoTimeout();
                     socket.setSoTimeout(1);
-                    PushbackInputStream pbin = (PushbackInputStream) socket.getInputStream();
+                    PushbackInputStream pbin = new PushbackInputStream(socket.getInputStream());
+                    //PushbackInputStream pbin = (PushbackInputStream) socket.getInputStream();
                     int test = pbin.read();
                     if (test == -1) {
                         return false;
