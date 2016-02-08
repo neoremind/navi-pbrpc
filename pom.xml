@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.baidu.beidou</groupId>
 	<artifactId>navi-pbrpc</artifactId>
-	<version>1.1.1-SNAPSHOT</version>
+	<version>1.1.2-SNAPSHOT</version>
 	<name>navi-pbrpc</name>
 	<description>A protobuf based high performance rpc framework which provides asynchronous io with netty</description>
 
